@@ -17,6 +17,16 @@ namespace JavaScriptTask.Controllers
             return View();
         }
 
+        protected ActionResult btnDownload(object sender,EventArgs e)
+        {
+            ModelFile file = new ModelFile();
+            file.FileAmount = "435";//sender;
+            file.MaxValue = "34";//
+            Download(file);
+
+
+            return null;
+        }
 
         public ActionResult Download(ModelFile file)
         {

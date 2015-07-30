@@ -5,18 +5,17 @@
     <script>
         window.onload = function () {
             document.getElementById("button").style.display = 'none';
-
         }
 
         function validate() {
             var fileNumber = parseInt(document.getElementById('1').value);
             var MaxValue = parseInt(document.getElementById('2').value);
 
-            if (fileNumber == 0) {
+            if (fileNumber == 0 | isNaN(fileNumber)) {
                 window.alert("Wprowadz liczbę");
                 //return;
             }
-            else if (MaxValue == 0) {
+            else if (MaxValue == 0 | isNaN(MaxValue)){
                 window.alert("wprowadz wartosc");
                /// return;
             }
@@ -31,13 +30,17 @@
             else {
                 window.alert("jest dobrze");
                 showButton();
-                // return;
             }
+        }
             function showButton() {
                 document.getElementById("button").style.display = 'block';
             }
+            function Download() {
 
-        }
+              //  $('btnDownload').trigger('click');
+            }
+
+
     </script>
 
 </head>
@@ -47,10 +50,8 @@
         <input type="number" size="20" id="1" name="fileAmount">
         <input type="number" size="20" id="2" name="maxValue">
         <input type="submit" name="submit" value="Submit">
-        
-       
     </form>
-    <input type="button" id="button" value="Generuj" /> <!--onclick="Download()"/-->
+    <input type="button" id="button" value="Generuj" onclick="Download()"/>
 
 </body>
 </html>
