@@ -5,23 +5,12 @@
 
     <script>
 
-    function Download() {
+        function Download() {
+            var fileNumber = parseInt(document.getElementById('1').value);
+            var MaxValue = parseInt(document.getElementById('2').value);
 
-        var fileNumber = parseInt(document.getElementById('1').value);
-        var MaxValue = parseInt(document.getElementById('2').value);
-
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("btnDownload", "Home")",
-            data: { x:fileName, y: MaxValue },
-            success: function () {
-                alert();
-
-            }
-        });
-    }
-
+            $.post("/Controller/Home/btnDownload", {"x":fileNumber, "y":MaxValue })
+        }
 
     </script>
 
@@ -29,7 +18,7 @@
 
 <body>
 
-    <input type="button" id="button" value="Generuj" onclick="Download()"/>
+    <input type="submit" id="button" value="Generuj" onclick="Download()"/>
 
 </body>
 </html>

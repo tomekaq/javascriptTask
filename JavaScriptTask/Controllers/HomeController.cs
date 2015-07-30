@@ -16,6 +16,7 @@ namespace JavaScriptTask.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult btnDownload(string x,string y)
         {
@@ -23,7 +24,6 @@ namespace JavaScriptTask.Controllers
             file.FileAmount = "435";//sender;
             file.MaxValue = "34";//
             Download(file);
-
 
             return null;
         }
