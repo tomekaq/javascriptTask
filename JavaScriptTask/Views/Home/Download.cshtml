@@ -1,7 +1,7 @@
 ﻿
 <html>
 <head>
-
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script>
     //window.onload = function () {
     //    document.getElementById("button").style.display = 'none';
@@ -35,22 +35,28 @@
     function showButton() {
         document.getElementById("button").style.display = 'block';
     }
-    function Download() {
-
-        var fileNumber = parseInt(document.getElementById('1').value);
-        var MaxValue = parseInt(document.getElementById('2').value);
+   
 
 
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("btnDownload", "Home")",
-            data: { x:fileName, y: MaxValue },
-            success: function () {
-                alert();
 
-            }
+        $(function () {
+            $("#button2").click(function (e) {
+                var fileNumber = parseInt(document.getElementById('1').value);
+                var MaxValue = parseInt(document.getElementById('2').value);
+
+                e.preventDefault();
+
+                $.post("Home/btnDownload", function () {
+                    window.alert("Your server side method 'A' has completed!");
+                });
+            });
+           
+         
         });
-    }
+
+
+    
+    
 
 
     </script>
@@ -63,7 +69,7 @@
         <input type="number" size="20" id="2" name="maxValue">
         <input type="submit" name="submit" value="Submit">
     </form>
-    <input type="button" id="button" value="Generuj" onclick="Download()"/>
+    <input type="button" id="button2" value="Generuj" />
 
 </body>
 </html>
