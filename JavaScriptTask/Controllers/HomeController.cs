@@ -16,8 +16,8 @@ namespace JavaScriptTask.Controllers
         {
             return View();
         }
-
-        protected ActionResult btnDownload(object sender,EventArgs e)
+        [HttpPost]
+        public ActionResult btnDownload(string x,string y)
         {
             ModelFile file = new ModelFile();
             file.FileAmount = "435";//sender;
