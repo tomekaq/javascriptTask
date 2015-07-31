@@ -36,7 +36,7 @@
         document.getElementById("button2").style.display = 'block';
     }
    
-
+ 
 
 
         $(function () {
@@ -47,7 +47,8 @@
                     url: '/Home/Download',
                     dataType: "json",
                     type: "POST",
-                    data: JSON.stringify({ file: { FileAmount: fileNumber , MaxValue: MaxValue } }),
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({ file: { FileAmount: fileNumber, MaxValue: MaxValue } }),
                     async: true,
                     processData: false,
                     cache: false,
@@ -55,10 +56,10 @@
                         alert(data);
                     },
                     error: function (xhr) {
-                        alert('errortertr');
+                        alert('error');
                     }
-                })
-           })
+                });
+           });
          
         });
 

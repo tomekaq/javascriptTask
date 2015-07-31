@@ -22,7 +22,7 @@ namespace JavaScriptTask.Controllers
             ModelFile file = new ModelFile();
             file.FileAmount = "435";//sender;
             file.MaxValue = "34";//
-            Download(file);
+       //     Download(file);
 
 
             return null;
@@ -31,6 +31,10 @@ namespace JavaScriptTask.Controllers
 
         public JsonResult Download(ModelFile file)
         {
+            //= new ModelFile();
+            //file.FileAmount = x;
+            //file.MaxValue = y;
+
             try
             {
                 if (ModelState.IsValid)
@@ -39,18 +43,21 @@ namespace JavaScriptTask.Controllers
 
                     var fileName = "GenerateFile.txt";
 
-                    System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
-                    response.ClearContent();
-                    response.Clear();
-                    response.ContentType = "text/plain";
-                    response.AddHeader("Content-Disposition",
-                                       "attachment; filename=" + fileName + ";");
-                    response.TransmitFile(Server.MapPath("~/GenerateFile.txt"));
-                    response.Flush();
-                    response.End();
+                    //System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                    //response.ClearContent();
+                    //response.Clear();
+                    //response.ContentType = "text/plain";
+                    //response.AddHeader("Content-Disposition",
+                    //                   "attachment; filename=" + fileName + ";");
+                    //response.TransmitFile(Server.MapPath("~/GenerateFile.txt"));
+                    //response.Flush();
+                    //response.End();
 
+                    return Json(fileName);
+
+                    //return Json(new { State = "Success", Data = "gsdf" });
                 }
-                    return Json("cos dobrego");
+                return Json("Model is invalid");
             }
             catch(Exception e)
             {
