@@ -28,7 +28,8 @@ namespace JavaScriptTask.Controllers
             return null;
         }
 
-        public ActionResult Download(ModelFile file)
+
+        public JsonResult Download(ModelFile file)
         {
             try
             {
@@ -49,13 +50,15 @@ namespace JavaScriptTask.Controllers
                     response.End();
 
                 }
+                    return Json("cos dobrego");
             }
-            catch
+            catch(Exception e)
             {
-                return View("Download");
+            //    return View("Download");
+                return Json(e.Message);
             }
 
-            return View();
+ //           return View();
 
         }
 

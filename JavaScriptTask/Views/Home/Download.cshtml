@@ -33,24 +33,32 @@
         }
     }
     function showButton() {
-        document.getElementById("button").style.display = 'block';
+        document.getElementById("button2").style.display = 'block';
     }
    
 
 
 
         $(function () {
-            $("#button2").click(function (e) {
+            $('#button2').click( function(){
                 var fileNumber = parseInt(document.getElementById('1').value);
                 var MaxValue = parseInt(document.getElementById('2').value);
-
-                e.preventDefault();
-
-                $.post("Home/btnDownload", function () {
-                    window.alert("Your server side method 'A' has completed!");
-                });
-            });
-           
+                $.ajax({
+                    url: '/Home/Download',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ file: { FileAmount: fileNumber , MaxValue: MaxValue } }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (xhr) {
+                        alert('errortertr');
+                    }
+                })
+           })
          
         });
 
