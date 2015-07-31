@@ -9,32 +9,15 @@ using WebApplication1;
 
 namespace JavaScriptTask.Controllers
 {
-
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
             return View();
         }
-        [HttpPost]
-        public ActionResult btnDownload(string x,string y)
+
+        public ActionResult Download(ModelFile file)
         {
-            ModelFile file = new ModelFile();
-            file.FileAmount = "435";//sender;
-            file.MaxValue = "34";//
-       //     Download(file);
-
-
-            return null;
-        }
-
-
-        public JsonResult Download(ModelFile file)
-        {
-            //= new ModelFile();
-            //file.FileAmount = x;
-            //file.MaxValue = y;
-
             try
             {
                 if (ModelState.IsValid)
@@ -53,20 +36,13 @@ namespace JavaScriptTask.Controllers
                     //response.Flush();
                     //response.End();
 
-                    return Json(fileName);
-
-                    //return Json(new { State = "Success", Data = "gsdf" });
                 }
-                return Json("Model is invalid");
+                return Json("ściąganie pliku");
             }
             catch(Exception e)
             {
-            //    return View("Download");
                 return Json(e.Message);
             }
-
- //           return View();
-
         }
 
         public FileStream GenerateFile(string inputParam, string amount)
@@ -85,7 +61,6 @@ namespace JavaScriptTask.Controllers
                             writeStream.WriteLine(rndstream.Read());
                     }
                     return fileStream;
-
                 }
             }
         }
