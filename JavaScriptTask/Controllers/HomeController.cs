@@ -47,7 +47,7 @@ namespace JavaScriptTask.Controllers
             int maxVal = int.Parse(file.MaxValue);
             int _amount = int.Parse(file.FileAmount);
 
-            using (BCRandomStream rndstream = new BCRandomStream(maxVal))
+            using (BCRandomStream rndstream = new BCRandomStream(maxVal+1))
             {
                 string fName = "GenerateFile.txt";
                 string path = Server.MapPath("~/GenerateFile.txt");

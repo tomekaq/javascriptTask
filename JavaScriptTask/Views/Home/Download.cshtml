@@ -9,23 +9,25 @@
     }
 
     function validate() {
-        var fileNumber = parseInt(document.getElementById('1').value);
-        var MaxValue = parseInt(document.getElementById('2').value);
+        var fileNumber = parseInt(document.getElementById('textbox1').value);
+        var MaxValue = parseInt(document.getElementById('textbox2').value);
 
         if (fileNumber == 0 | isNaN(fileNumber)) {
-            window.alert("Wprowadz liczbę");
+            window.alert("Wprowadz ile liczb wygenerować ");
         }
         else if (MaxValue == 0 | isNaN(MaxValue)) {
-            window.alert("wprowadz wartosc");
+            window.alert("Wprowadz maksymalną wartość");
         }
         else if (MaxValue < 0) {
-            window.alert("wprowadz wartosc większą od zera");
+            window.alert("Maksymalna wartość musi być większa od zera");
         }
         else if (MaxValue > 2147483647) {
-            window.alert("wprowadz mniejsza liczbę");
+            window.alert("Maksymalna wartość musi być mniejsza niż 2147483647");
         }
         else {
+           document.getElementById('textbox1').disabled = "true";
             showButton();
+            document.getElementById('textbox2').disabled = "true";
         }
     }
 
@@ -35,8 +37,8 @@
 
     $(function () {
         $('#button').click(function () {
-            var fileNumber = parseInt(document.getElementById('1').value);
-            var MaxValue = parseInt(document.getElementById('2').value);
+            var fileNumber = parseInt(document.getElementById('textbox1').value);
+            var MaxValue = parseInt(document.getElementById('textbox2').value);
             var getUrl = '@Url.Action("Download","Home")';
 
             $.ajax({
@@ -60,23 +62,29 @@
 
     });
 
-    $(document).ready(function () {
-        $("submit").click(function () {
-            $("p").toggle();
-        });
-    });
+        function reset() {
+
+            document.getElementById('textbox1').disabled = false;
+            document.getElementById('textbox1').value = 0;
+            document.getElementById('textbox2').disabled = false;
+            document.getElementById('textbox2').value = 0;
+            document.getElementById("button").style.display = 'none';
+        }
 
     </script>
 
 </head>
 
 <body>
-    <form name="login">
-        <input type="number" size="20" id="1" name="fileAmount">
-        <input type="number" size="20" id="2" name="maxValue">
-        <input type="button" name="submit" value="Submit" onclick="validate()">
-    </form>
-    <input type="button" id="button" value="Generuj" />
+    <form name="inputFile">
+        <p>Wprowadź ile liczb wygenerować</p> <input type="text" size="20" id="textbox1" name="fileAmount">
+        <p>Wprowadź maksymalną wartość</p>    <input type="text" size="20" id="textbox2" name="maxValue">
+        <p><input type="button" name="submit" value="OK" onclick="validate()"></p>
+        
 
-</body>
+    </form>
+    <p><input type="button" id="reset" value="Resetuj" onclick="reset()" /></p>
+    <p><input type="button" id="button" value="Generuj" /></p>
+    
+    </body>
 </html>
