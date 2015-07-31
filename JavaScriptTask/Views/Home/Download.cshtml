@@ -4,64 +4,67 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script>
 
-        window.onload = function () {
-            document.getElementById("button").style.display = 'none';
-        }
+    window.onload = function () {
+        document.getElementById("button").style.display = 'none';
+    }
 
-        function validate() {
+    function validate() {
+        var fileNumber = parseInt(document.getElementById('1').value);
+        var MaxValue = parseInt(document.getElementById('2').value);
+
+        if (fileNumber == 0 | isNaN(fileNumber)) {
+            window.alert("Wprowadz liczbę");
+        }
+        else if (MaxValue == 0 | isNaN(MaxValue)) {
+            window.alert("wprowadz wartosc");
+        }
+        else if (MaxValue < 0) {
+            window.alert("wprowadz wartosc większą od zera");
+        }
+        else if (MaxValue > 2147483647) {
+            window.alert("wprowadz mniejsza liczbę");
+        }
+        else {
+            showButton();
+        }
+    }
+
+    function showButton() {
+        document.getElementById("button").style.display = 'block';
+    }
+
+    $(function () {
+        $('#button').click(function () {
             var fileNumber = parseInt(document.getElementById('1').value);
             var MaxValue = parseInt(document.getElementById('2').value);
+            var getUrl = '@Url.Action("Download","Home")';
 
-            if (fileNumber == 0 | isNaN(fileNumber)) {
-                window.alert("Wprowadz liczbę");
-            }
-            else if (MaxValue == 0 | isNaN(MaxValue)) {
-                window.alert("wprowadz wartosc");
-            }
-            else if (MaxValue < 0) {
-                window.alert("wprowadz wartosc większą od zera");
-            }
-            else if (MaxValue > 2147483647) {
-                window.alert("wprowadz mniejsza liczbę");
-            }
-            else {
-                showButton();
-            }
-        }
-
-        function showButton() {
-            document.getElementById("button").style.display = 'block';
-        }
-
-        $(function () {
-            $('#button').click(function () {
-                var fileNumber = parseInt(document.getElementById('1').value);
-                var MaxValue = parseInt(document.getElementById('2').value);
-                $.ajax({
-                    url: '/Home/Download',
-                    dataType: "json",
-                    type: "POST",
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify({ file: { FileAmount: fileNumber, MaxValue: MaxValue } }),
-                    async: true,
-                    processData: false,
-                    cache: false,
-                    success: function (data) {
-                        alert(data);
-                    },
-                    error: function (xhr) {
-                        alert('error');
-                    }
-                });
-            });
-
-        });
-
-        $(document).ready(function(){
-            $("submit").click(function(){
-                $("p").toggle();
+            $.ajax({
+                url: '/Home/GenerateFile',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ file: { FileAmount: fileNumber, MaxValue: MaxValue } }),
+                async: true,
+                processData: false,
+                cache: false,
+                success: function (data) {
+                    if(data.success)
+                        window.location = getUrl + "?fileName=" + data.fName;
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
             });
         });
+
+    });
+
+    $(document).ready(function () {
+        $("submit").click(function () {
+            $("p").toggle();
+        });
+    });
 
     </script>
 

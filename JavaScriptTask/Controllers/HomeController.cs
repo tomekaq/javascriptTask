@@ -16,42 +16,40 @@ namespace JavaScriptTask.Controllers
             return View();
         }
 
-        public ActionResult Download(ModelFile file)
+        public ActionResult Download(string fileName)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    GenerateFile(file.MaxValue, file.FileAmount);
 
-                    var fileName = "GenerateFile.txt";
-
-                    //System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
-                    //response.ClearContent();
-                    //response.Clear();
-                    //response.ContentType = "text/plain";
-                    //response.AddHeader("Content-Disposition",
-                    //                   "attachment; filename=" + fileName + ";");
-                    //response.TransmitFile(Server.MapPath("~/GenerateFile.txt"));
-                    //response.Flush();
-                    //response.End();
+                    System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                    response.ClearContent();
+                    response.Clear();
+                    response.ContentType = "text/plain";
+                    response.AddHeader("Content-Disposition",
+                                       "attachment; filename=" + fileName + ";");
+                    response.TransmitFile(Server.MapPath("~/GenerateFile.txt"));
+                    response.Flush();
+                    response.End();
 
                 }
-                return Json("ściąganie pliku");
             }
             catch(Exception e)
             {
                 return Json(e.Message);
             }
+            return null;
         }
 
-        public FileStream GenerateFile(string inputParam, string amount)
+        public JsonResult GenerateFile(ModelFile file)
         {
-            int maxVal = int.Parse(inputParam);
-            int _amount = int.Parse(amount);
+            int maxVal = int.Parse(file.MaxValue);
+            int _amount = int.Parse(file.FileAmount);
 
             using (BCRandomStream rndstream = new BCRandomStream(maxVal))
             {
+                string fName = "GenerateFile.txt";
                 string path = Server.MapPath("~/GenerateFile.txt");
                 using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
                 {
@@ -60,7 +58,7 @@ namespace JavaScriptTask.Controllers
                         for (var i = 0; i < _amount; i++)
                             writeStream.WriteLine(rndstream.Read());
                     }
-                    return fileStream;
+                    return Json(new { success = true, fName }, JsonRequestBehavior.AllowGet);
                 }
             }
         }
