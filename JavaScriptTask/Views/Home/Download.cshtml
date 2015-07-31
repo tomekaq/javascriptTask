@@ -3,44 +3,38 @@
 <head>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script>
-    //window.onload = function () {
-    //    document.getElementById("button").style.display = 'none';
-    //}
 
-    function validate() {
-        var fileNumber = parseInt(document.getElementById('1').value);
-        var MaxValue = parseInt(document.getElementById('2').value);
+        window.onload = function () {
+            document.getElementById("button").style.display = 'none';
+        }
 
-        if (fileNumber == 0 | isNaN(fileNumber)) {
-            window.alert("Wprowadz liczbę");
-            //return;
-        }
-        else if (MaxValue == 0 | isNaN(MaxValue)){
-            window.alert("wprowadz wartosc");
-            /// return;
-        }
-        else if (MaxValue < 0){
-            window.alert("wprowadz wartosc większą od zera");
-            //return;
-        }
-        else if (MaxValue > 2147483647) {
-            window.alert("wprowadz mniejsza liczbę");
-            // return;
-        }
-        else {
-            window.alert("jest dobrze");
-            showButton();
-        }
-    }
-    function showButton() {
-        document.getElementById("button2").style.display = 'block';
-    }
-   
- 
+        function validate() {
+            var fileNumber = parseInt(document.getElementById('1').value);
+            var MaxValue = parseInt(document.getElementById('2').value);
 
+            if (fileNumber == 0 | isNaN(fileNumber)) {
+                window.alert("Wprowadz liczbę");
+            }
+            else if (MaxValue == 0 | isNaN(MaxValue)) {
+                window.alert("wprowadz wartosc");
+            }
+            else if (MaxValue < 0) {
+                window.alert("wprowadz wartosc większą od zera");
+            }
+            else if (MaxValue > 2147483647) {
+                window.alert("wprowadz mniejsza liczbę");
+            }
+            else {
+                showButton();
+            }
+        }
+
+        function showButton() {
+            document.getElementById("button").style.display = 'block';
+        }
 
         $(function () {
-            $('#button2').click( function(){
+            $('#button').click(function () {
                 var fileNumber = parseInt(document.getElementById('1').value);
                 var MaxValue = parseInt(document.getElementById('2').value);
                 $.ajax({
@@ -59,26 +53,27 @@
                         alert('error');
                     }
                 });
-           });
-         
+            });
+
         });
 
-
-    
-    
-
+        $(document).ready(function(){
+            $("submit").click(function(){
+                $("p").toggle();
+            });
+        });
 
     </script>
 
 </head>
 
 <body>
-    <form name="login" onsubmit="validate()">
+    <form name="login">
         <input type="number" size="20" id="1" name="fileAmount">
         <input type="number" size="20" id="2" name="maxValue">
-        <input type="submit" name="submit" value="Submit">
+        <input type="button" name="submit" value="Submit" onclick="validate()">
     </form>
-    <input type="button" id="button2" value="Generuj" />
+    <input type="button" id="button" value="Generuj" />
 
 </body>
 </html>
