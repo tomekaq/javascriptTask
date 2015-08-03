@@ -2,23 +2,35 @@
 
 <head>
     <title> Generowanie losowych liczb</title>
-    
-    
+
     <style>
         p {
             /*color:cyan;*/
         }
 
         body {
-            /*background-color:grey;*/
+            background-color: aliceblue;
+            color-interpolation:linearRGB;
         }
 
         span {
             font-style: normal;
             color: palevioletred;
         }
-    </style>
 
+        td {
+            color: brown;
+            font-style: normal;
+        }
+
+        #okButton, #reset {
+            color: chocolate;
+        }
+
+        #genButton {
+            color-interpolation:linearRGB;
+        }
+    </style>
 
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script>
@@ -31,17 +43,24 @@
             var fileNumber = parseInt($("#textbox1").val());
             var MaxValue = parseInt($("#textbox2").val());
 
-            if (fileNumber == 0 | isNaN(fileNumber)) {
-                $('#valid1').html("Wprowadz ile liczb wygenerować.")
+            $("#war1").remove();
+            $("#war2").remove();
+
+            if ((fileNumber == 0 | isNaN(fileNumber)) & (MaxValue == 0 | isNaN(MaxValue))) {
+                $('<td id="war1"> Wprowadz ile liczb wygenerować.</td>').appendTo('#myTable').appendTo('#col1');
+                $('<td id="war2"> Wprowadz maksymalną wartość.</td>').appendTo('#myTable').appendTo('#col2');
             }
-            if (MaxValue == 0 | isNaN(MaxValue)) {
-                $('#valid2').append('<span id="warn2" value="Wprowadz maksymalną wartość."/>');
+            else if (fileNumber == 0 | isNaN(fileNumber)) {
+                $('<td id="war1">Wprowadz ile liczb wygenerować.</td>').appendTo('#myTable').appendTo('#col1');
+            }
+            else if (MaxValue == 0 | isNaN(MaxValue)) {
+                $('<td id="war2"> Wprowadz maksymalną wartość.</td>').appendTo('#myTable').appendTo('#col2');
             }
             else if (MaxValue < 0) {
-                $('#valid2').append('<span id="warn2" value="Maksymalna wartość musi być większa od zera"/>');
+                $('<td id="war2"> "Maksymalna wartość musi być większa od zera.</td>').appendTo('#myTable').appendTo('#col2');
             }
             else if (MaxValue > 2147483647) {
-                $('#valid2').html("Maksymalna wartość musi być mniejsza niż 2147483647");
+                $('<td id="war2"> "Maksymalna wartość musi być mniejsza niż 2147483647." </td>').appendTo('#myTable').appendTo('#col2');
             }
             else {
                 $("#okButton").attr("disabled", true);
@@ -49,7 +68,6 @@
                 $("#textbox2").attr("disabled", true);
                 $('<input type="button" id="genButton" value= "Generuj"/>').appendTo('.genbutton');
             }
-
         }
         $(document).on('click', '#genButton', function () {
             var fileNumber = parseInt($("#textbox1").val());
@@ -76,6 +94,8 @@
         });
 
         function reset() {
+            $("#war1").remove();
+            $("#war2").remove();
             $("#okButton").attr("disabled", false);
             $("#textbox1").attr("disabled", false).val(0);
             $("#textbox2").attr("disabled", false).val(0);
@@ -88,27 +108,23 @@
 
 <body>
 
-        <table>
-            <tr>
-                <td>Wprowadź ile liczb wygenerować:</td>
-                <td>  <input type="text" size="20" id="textbox1" name="fileAmount" /> <span id="valid1"></span></td>
-                <td id="warfield1" />
-            </tr>
-            <tr>
-                <td>Wprowadź maksymalną wartość:</td>
-                <td><input type="text" size="20" id="textbox2" name="maxValue" /> <span id="valid2"></span></td>
-                <td id="warfield2" />
-            </tr>
-            <tr>
-                <td align="left">
-                    <input type="button" id="okButton" name="submit" value="OK" onclick="validate()">
-                    <input type="button" id="reset" value="Resetuj" onclick="reset()" />
-                    <div class="genbutton" />
-                </td>
-            </tr>
-        </table>
-
-
+    <table id="myTable">
+        <tr width="10%" id="col1">
+            <td>Wprowadź ile liczb wygenerować:</td>
+            <td>  <input type="text" size="20" id="textbox1" name="fileAmount" /></td>
+        </tr>
+        <tr width="10%" id="col2">
+            <td>Wprowadź maksymalną wartość:</td>
+            <td><input type="text" size="20" id="textbox2" name="maxValue" /> </td>
+        </tr>
+        <tr id="buttons">
+            <td align="right">
+                <input type="button" id="okButton" name="submit" value="OK" onclick="validate()" dis>
+                <input type="button" id="reset" value="Resetuj" onclick="reset()" />
+            </td>
+            <td><div class="genbutton" /></td>
+        </tr>
+    </table>
 
 </body>
 
