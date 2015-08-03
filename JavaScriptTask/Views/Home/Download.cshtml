@@ -1,74 +1,81 @@
-﻿
-<html>
+﻿<html>
+
 <head>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script>
 
-    window.onload = function () {
-        document.getElementById("button").style.display = 'none';
-    }
-
-    function validate() {
-        var fileNumber = parseInt(document.getElementById('textbox1').value);
-        var MaxValue = parseInt(document.getElementById('textbox2').value);
-
-        if (fileNumber == 0 | isNaN(fileNumber)) {
-            window.alert("Wprowadz ile liczb wygenerować ");
+        window.onload = function () {
+            document.getElementById("button").style.display = 'none';
         }
-        else if (MaxValue == 0 | isNaN(MaxValue)) {
-            window.alert("Wprowadz maksymalną wartość");
-        }
-        else if (MaxValue < 0) {
-            window.alert("Maksymalna wartość musi być większa od zera");
-        }
-        else if (MaxValue > 2147483647) {
-            window.alert("Maksymalna wartość musi być mniejsza niż 2147483647");
-        }
-        else {
-           document.getElementById('textbox1').disabled = "true";
-            showButton();
-            document.getElementById('textbox2').disabled = "true";
-        }
-    }
 
-    function showButton() {
-        document.getElementById("button").style.display = 'block';
-    }
+        function validate() {
+            var fileNumber = parseInt($("#textbox1").attr("value"));
+            var MaxValue = parseInt($("#textbox2").attr("value"));
 
-    $(function () {
-        $('#button').click(function () {
-            var fileNumber = parseInt(document.getElementById('textbox1').value);
-            var MaxValue = parseInt(document.getElementById('textbox2').value);
-            var getUrl = '@Url.Action("Download","Home")';
+            if (fileNumber == 0 | isNaN(fileNumber)) {
+                alert("Wprowadz ile liczb wygenerować ");
+            }
+            else if (MaxValue == 0 | isNaN(MaxValue)) {
+                alert("Wprowadz maksymalną wartość");
+            }
+            else if (MaxValue < 0) {
+                alert("Maksymalna wartość musi być większa od zera");
+            }
+            else if (MaxValue > 2147483647) {
+                alert("Maksymalna wartość musi być mniejsza niż 2147483647");
+            }
+            else {
+                $("#textbox1").attr("disabled", true);
+                $("#textbox2").attr("disabled", true);
+            }
+        }
 
-            $.ajax({
-                url: '/Home/GenerateFile',
-                dataType: "json",
-                type: "POST",
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify({ file: { FileAmount: fileNumber, MaxValue: MaxValue } }),
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data) {
-                    if(data.success)
-                        window.location = getUrl + "?fileName=" + data.fName;
-                },
-                error: function (xhr) {
-                    alert('error');
-                }
+        //$("#mybutton").click(function () {
+
+        //    windows.alert("hi");
+
+        //});
+
+        //$("#mybutton").click(function () {
+        //    var test = $('<button>', {
+        //        Text: 'Generuj'
+        //    }).wrap('<tr><td></td></tr>').closest('tr');
+
+        //    $("#addNodeTable tr:last").before(test);
+        //});
+
+        $(function () {
+            $('#button').click(function () {
+                var fileNumber = parseInt($("#textbox1").attr("value"));
+                var MaxValue = parseInt($("#textbox2").attr("value"));
+                var getUrl = '@Url.Action("Download","Home")';
+
+                $.ajax({
+                    url: '/Home/GenerateFile',
+                    dataType: "json",
+                    type: "POST",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({ file: { FileAmount: fileNumber, MaxValue: MaxValue } }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        if (data.success)
+                            window.location = getUrl + "?fileName=" + data.fName;
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
             });
         });
 
-    });
-
         function reset() {
 
-            document.getElementById('textbox1').disabled = false;
-            document.getElementById('textbox1').value = 0;
-            document.getElementById('textbox2').disabled = false;
-            document.getElementById('textbox2').value = 0;
-            document.getElementById("button").style.display = 'none';
+            $("#textbox1").attr("disabled", false);
+            $("#textbox1").attr("value", 0);
+            $("#textbox2").attr("disabled", false);
+            $("#textbox2").attr("value", 0);
         }
 
     </script>
@@ -77,14 +84,15 @@
 
 <body>
     <form name="inputFile">
-        <p>Wprowadź ile liczb wygenerować</p> <input type="text" size="20" id="textbox1" name="fileAmount">
-        <p>Wprowadź maksymalną wartość</p>    <input type="text" size="20" id="textbox2" name="maxValue">
-        <p><input type="button" name="submit" value="OK" onclick="validate()"></p>
-        
-
+        <p>Wprowadź ile liczb wygenerować: <input type="text" size="20" id="textbox1" name="fileAmount" value="34"></p>
+        <p>Wprowadź maksymalną wartość:    <input type="text" size="20" id="textbox2" name="maxValue" value="34"></p>
+        <p><input type="button" id="okButton" name="submit" value="OK" onclick="validate()"></p>
     </form>
     <p><input type="button" id="reset" value="Resetuj" onclick="reset()" /></p>
     <p><input type="button" id="button" value="Generuj" /></p>
-    
-    </body>
+    <p>
+        <input type="button" id="mybutton" height="200" width="1000" name="myButton" value="dskfje" />
+    </p>
+</body>
+
 </html>
