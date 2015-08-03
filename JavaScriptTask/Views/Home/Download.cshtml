@@ -64,19 +64,17 @@
         }
         var nacisk = 0;
 
-        $('#genContext').empty();
-
-
         $(function () {
-            $('#okButton').click(function () {
-                $('<input type="button" id="genButton" value= "Generuj"/>').appendTo('body').appendTo('#genContext')
-
+            $("#okButton").click(function () {
+                var test = $('<input type="button" id="genButton" value= "Generuj"/>').appendTo('body');
+//                $('body').append(test);
             });
         });
 
+        
+      //  $(document).on('click', '#genButton', function () { alert("gowno");});
 
-
-        $('#genContext').on('click', '#genButton', function () {
+        $(document).on('click','#genButton', function () {
                 var fileNumber = parseInt($("#textbox1").val());
                 var MaxValue = parseInt($("#textbox2").val());
                 var getUrl = '@Url.Action("Download","Home")';
@@ -99,7 +97,7 @@
                     }
                 });
             });
-
+        
 
         function reset() {
 
