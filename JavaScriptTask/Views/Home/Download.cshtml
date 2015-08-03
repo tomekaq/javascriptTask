@@ -1,22 +1,55 @@
 ﻿<html>
 
 <head>
+
+    <style>
+        p {
+            /*color:cyan;*/
+        }
+
+        body {
+            /*background-color:grey;*/
+        }
+
+        span {
+            font-style: normal;
+            color: palevioletred;
+        }
+    </style>
+
+
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script>
 
+        //$("#textbox1").keypress(function (event) {
+        //    if (event.which == 'a')
+        //        alert("wyskocz z bledem");
+        //    nacisk++;
+        //    $('text')
+
+        //});
+
+        //$("#mybutton").click(function () {
+        //        var test = $('<button>', {
+        //            Text: 'Generuj'
+        //        }).wrap('<tr><td></td></tr>').closest('tr');
+
+        //        $("#addNodeTable tr:last").before(test);
+        //    });
+
         window.onload = function () {
-            document.getElementById("button").style.display = 'none';
+            $("myButton").style.display = 'none';
         }
 
         function validate() {
-            var fileNumber = parseInt($("#textbox1").attr("value"));
-            var MaxValue = parseInt($("#textbox2").attr("value"));
+            var fileNumber = parseInt($("#textbox1").val());
+            var MaxValue = parseInt($("#textbox2").val());
 
             if (fileNumber == 0 | isNaN(fileNumber)) {
-                alert("Wprowadz ile liczb wygenerować ");
+                $('#valid1').html("Wprowadz ile liczb wygenerować.")
             }
-            else if (MaxValue == 0 | isNaN(MaxValue)) {
-                alert("Wprowadz maksymalną wartość");
+            if (MaxValue == 0 | isNaN(MaxValue)) {
+                $('#valid2').html("Wprowadz maksymalną wartość.");
             }
             else if (MaxValue < 0) {
                 alert("Maksymalna wartość musi być większa od zera");
@@ -29,25 +62,23 @@
                 $("#textbox2").attr("disabled", true);
             }
         }
+        var nacisk = 0;
 
-        //$("#mybutton").click(function () {
+        $('#genContext').empty();
 
-        //    windows.alert("hi");
-
-        //});
-
-        //$("#mybutton").click(function () {
-        //    var test = $('<button>', {
-        //        Text: 'Generuj'
-        //    }).wrap('<tr><td></td></tr>').closest('tr');
-
-        //    $("#addNodeTable tr:last").before(test);
-        //});
 
         $(function () {
-            $('#button').click(function () {
-                var fileNumber = parseInt($("#textbox1").attr("value"));
-                var MaxValue = parseInt($("#textbox2").attr("value"));
+            $('#okButton').click(function () {
+                $('<input type="button" id="genButton" value= "Generuj"/>').appendTo('body').appendTo('#genContext')
+
+            });
+        });
+
+
+
+        $('#genContext').on('click', '#genButton', function () {
+                var fileNumber = parseInt($("#textbox1").val());
+                var MaxValue = parseInt($("#textbox2").val());
                 var getUrl = '@Url.Action("Download","Home")';
 
                 $.ajax({
@@ -68,14 +99,12 @@
                     }
                 });
             });
-        });
+
 
         function reset() {
 
-            $("#textbox1").attr("disabled", false);
-            $("#textbox1").attr("value", 0);
-            $("#textbox2").attr("disabled", false);
-            $("#textbox2").attr("value", 0);
+            $("#textbox1").attr("disabled", false).val(0);
+            $("#textbox2").attr("disabled", false).val(0);
         }
 
     </script>
@@ -84,15 +113,13 @@
 
 <body>
     <form name="inputFile">
-        <p>Wprowadź ile liczb wygenerować: <input type="text" size="20" id="textbox1" name="fileAmount" value="34"></p>
-        <p>Wprowadź maksymalną wartość:    <input type="text" size="20" id="textbox2" name="maxValue" value="34"></p>
+        <p>Wprowadź ile liczb wygenerować: <input type="text" size="20" id="textbox1" name="fileAmount" /> <span id="valid1"></span></p>
+        <p>Wprowadź maksymalną wartość:    <input type="text" size="20" id="textbox2" name="maxValue" /> <span id="valid2"></span></p>
         <p><input type="button" id="okButton" name="submit" value="OK" onclick="validate()"></p>
     </form>
     <p><input type="button" id="reset" value="Resetuj" onclick="reset()" /></p>
-    <p><input type="button" id="button" value="Generuj" /></p>
-    <p>
-        <input type="button" id="mybutton" height="200" width="1000" name="myButton" value="dskfje" />
-    </p>
+
+
 </body>
 
 </html>
