@@ -63,6 +63,12 @@ namespace JavaScriptTask.Controllers
             }
         }
     }
+
+    public class AsyncHomeController : AsyncController
+    {
+
+
+    }
 }
 
 

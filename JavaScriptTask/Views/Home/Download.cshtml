@@ -7,11 +7,12 @@
     <script src="~/Scripts/downloadscript.js"></script>
     <script>
 
+
+
         $(document).on('click', '#genButton', function () {
             var fileNumber = parseInt($("#textbox1").val());
             var MaxValue = parseInt($("#textbox2").val());
-            var getUrl = '@Url.Action("Download","Home")';
-
+        
             $.ajax({
                 url: '/Home/GenerateFile',
                 dataType: "json",
@@ -22,14 +23,30 @@
                 processData: false,
                 cache: false,
                 success: function (data) {
+                    alert("request send");
+                },
+                error: function (xhr) {
+                    alert('error request');
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                url:'/Home/Download',
+                dataType:"json",
+                type: "GET",
+                success: function (data) {
                     if (data.success)
                         window.location = getUrl + "?fileName=" + data.fName;
                 },
                 error: function (xhr) {
-                    alert('error');
+                    
                 }
-            });
+
+                });
         });
+
 
     </script>
 </head>
@@ -38,24 +55,23 @@
 <body>
 
     <div id="myTable">
-        <div width="10%" id="col1">
+        <div class="row" id="col1">
             <a>Wprowadź ile liczb wygenerować:</a>
             <a>  <input type="text" size="20" id="textbox1" name="fileAmount" /></a>
         </div>
-        <div width="10%" id="col2">
+        <div class="row" id="col2">
             <a>Wprowadź maksymalną wartość:</a>
             <a><input type="text" size="20" id="textbox2" name="maxValue" /> </a>
         </div>
-        <div class="genbutton" id="buttons" >
-            <a align="right">
+        <div class="genbutton" id="buttons">
+            <a>
                 <input type="button" id="okButton" name="submit" value="OK" onclick="validate()" dis>
                 <input type="button" id="reset" value="Resetuj" onclick="reset()" />
-        
+            
             </a>
-
         </div>
     </div>
 
-</body> 
+</body>
 
 </html>

@@ -37,13 +37,10 @@
         $("#okButton").attr("disabled", true);
         $("#textbox1").attr("disabled", true);
         $("#textbox2").attr("disabled", true);
-        $('<input type="button" id="genButton" value= "Generuj"/>')
+        $('<button type="button" id = "genButton" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-paperclip"></span> Generuj</button>')
             .appendTo('.genbutton');
     }
 }
-//$('#genButton').click()
-
-
 
 function reset() {
     $("#war1").remove();
