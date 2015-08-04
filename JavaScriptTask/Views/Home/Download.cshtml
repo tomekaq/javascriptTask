@@ -2,72 +2,28 @@
 
 <head>
     <title> Generowanie losowych liczb</title>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <script src="~/Scripts/downloadscript.js"></script>
-    <script>
-
-
-
-        $(document).on('click', '#genButton', function () {
-            var fileNumber = parseInt($("#textbox1").val());
-            var MaxValue = parseInt($("#textbox2").val());
-        
-            $.ajax({
-                url: '/Home/GenerateFile',
-                dataType: "json",
-                type: "POST",
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify({ file: { FileAmount: fileNumber, MaxValue: MaxValue } }),
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data) {
-                    alert("request send");
-                },
-                error: function (xhr) {
-                    alert('error request');
-                }
-            });
-        });
-
-        $(document).ready(function () {
-            $.ajax({
-                url:'/Home/Download',
-                dataType:"json",
-                type: "GET",
-                success: function (data) {
-                    if (data.success)
-                        window.location = getUrl + "?fileName=" + data.fName;
-                },
-                error: function (xhr) {
-                    
-                }
-
-                });
-        });
-
-
-    </script>
 </head>
+
 @Styles.Render("~/Content/themes/home/home.css")
 
 <body>
-
+    
     <div id="myTable">
         <div class="row" id="col1">
             <a>Wprowadź ile liczb wygenerować:</a>
-            <a>  <input type="text" size="20" id="textbox1" name="fileAmount" /></a>
+            <a>  <input type="text" size="20" id="textbox1" name="fileAmount" value="3" /></a>
         </div>
         <div class="row" id="col2">
             <a>Wprowadź maksymalną wartość:</a>
-            <a><input type="text" size="20" id="textbox2" name="maxValue" /> </a>
+            <a><input type="text" size="20" id="textbox2" name="maxValue" value="3" /> </a>
         </div>
         <div class="genbutton" id="buttons">
             <a>
                 <input type="button" id="okButton" name="submit" value="OK" onclick="validate()" dis>
                 <input type="button" id="reset" value="Resetuj" onclick="reset()" />
-            
+
             </a>
         </div>
     </div>
