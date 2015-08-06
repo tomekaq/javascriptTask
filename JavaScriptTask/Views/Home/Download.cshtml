@@ -24,30 +24,13 @@
                 processData: false,
                 cache: false,
                 success: function (data) {
-                    alert("request send");
+                    console.log("request send");
                 },
                 error: function (xhr) {
-                    alert('error request');
+                    console.log('error request');
                 }
             });
         });
-
-        $(document).ready(function () {
-            $.ajax({
-                url:'/Home/Download',
-                dataType:"json",
-                type: "GET",
-                success: function (data) {
-                    if (data.success)
-                        window.location = getUrl + "?fileName=" + data.fName;
-                },
-                error: function (xhr) {
-                    
-                }
-
-                });
-        });
-
 
     </script>
 </head>
@@ -68,11 +51,9 @@
             <a>
                 <input type="button" id="okButton" name="submit" value="OK" onclick="validate()" dis>
                 <input type="button" id="reset" value="Resetuj" onclick="reset()" />
-            
             </a>
         </div>
     </div>
-
 </body>
 
 </html>

@@ -50,10 +50,35 @@ function reset() {
     $("#textbox2").attr("disabled", false).val(0);
     $('.genbutton').children().next().remove();
 }
+
 $(".Download").ready(function () {
         window.hwnd = window.setInterval(
             function () {
                     console.info('ok');
                 }, 5000);
     
-    });
+});
+
+//$(".Download").ready(
+//    function () {
+//        window.aa = window.setInterval(
+//            function () {
+
+//                $.ajax({
+//                    url: '/Home/Download',
+//                    dataType: "json",
+//                    type: "GET",
+//                    success: function (data) {
+//                        console.log("chce odebrac");
+
+//                        //if (data.success)
+//                        //   window.location = getUrl + "?fileName=" + data.fName;
+//                    },
+//                    error: function (xhr) {
+//                        console.log("chce odebrac ale nie moge");
+//                    }
+
+//                });
+//            },5000000000)
+//    });
+

@@ -72,6 +72,20 @@ namespace JavaScriptTask.Controllers
                 }
             }
         }
+
+        public JsonResult SendInfo()
+        {
+            var peek = requestQueue.First();
+            if (peek != null) 
+            {
+                requestQueue.Dequeue();
+            }
+            else
+            {
+                requestQueue.Enqueue(peek);
+            }
+            return Json(peek);
+        }
     }
 
 
