@@ -50,3 +50,10 @@ function reset() {
     $("#textbox2").attr("disabled", false).val(0);
     $('.genbutton').children().next().remove();
 }
+$(".Download").ready(function () {
+        window.hwnd = window.setInterval(
+            function () {
+                    console.info('ok');
+                }, 5000);
+    
+    });

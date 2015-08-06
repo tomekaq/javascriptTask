@@ -11,6 +11,9 @@ namespace JavaScriptTask.Controllers
 {
     public class HomeController : Controller
     {
+
+        static Queue<string> requestQueue;
+
         public ActionResult Index()
         {
             return View();
@@ -35,7 +38,7 @@ namespace JavaScriptTask.Controllers
 
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(e.Message);
             }
@@ -47,10 +50,15 @@ namespace JavaScriptTask.Controllers
             int maxVal = int.Parse(file.MaxValue);
             int _amount = int.Parse(file.FileAmount);
 
-            using (BCRandomStream rndstream = new BCRandomStream(maxVal+1))
+            if (requestQueue == null)
             {
-                string fName = "GenerateFile.txt";
-                string path = Server.MapPath("~/GenerateFile.txt");
+                requestQueue = new Queue<string>();
+            }
+
+            using (BCRandomStream rndstream = new BCRandomStream(maxVal + 1))
+            {
+                string fName = "GenerateFile" + file.Id + ".txt";
+                string path = Server.MapPath("~/GenerateFile" + file.Id + ".txt");
                 using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
                 {
                     using (StreamWriter writeStream = new StreamWriter(fileStream))
@@ -58,17 +66,15 @@ namespace JavaScriptTask.Controllers
                         for (var i = 0; i < _amount; i++)
                             writeStream.WriteLine(rndstream.Read());
                     }
+                    string json = "{success = true," + fName + " id =" + file.Id + " }";
+                    requestQueue.Enqueue(json);
                     return Json(new { success = true, fName }, JsonRequestBehavior.AllowGet);
                 }
             }
         }
     }
 
-    public class AsyncHomeController : AsyncController
-    {
 
-
-    }
 }
 
 

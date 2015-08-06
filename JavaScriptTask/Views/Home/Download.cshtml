@@ -12,13 +12,14 @@
         $(document).on('click', '#genButton', function () {
             var fileNumber = parseInt($("#textbox1").val());
             var MaxValue = parseInt($("#textbox2").val());
-        
+            var id = Date.now();
+
             $.ajax({
                 url: '/Home/GenerateFile',
                 dataType: "json",
                 type: "POST",
                 contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify({ file: { FileAmount: fileNumber, MaxValue: MaxValue } }),
+                data: JSON.stringify({ file: { Id: id,FileAmount: fileNumber, MaxValue: MaxValue } }),
                 async: true,
                 processData: false,
                 cache: false,
