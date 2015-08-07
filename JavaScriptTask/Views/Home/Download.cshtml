@@ -5,34 +5,7 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <script src="~/Scripts/downloadscript.js"></script>
-    <script>
 
-
-
-        $(document).on('click', '#genButton', function () {
-            var fileNumber = parseInt($("#textbox1").val());
-            var MaxValue = parseInt($("#textbox2").val());
-            var id = Date.now();
-
-            $.ajax({
-                url: '/Home/GenerateFile',
-                dataType: "json",
-                type: "POST",
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify({ file: { Id: id,FileAmount: fileNumber, MaxValue: MaxValue } }),
-                async: true,
-                processData: false,
-                cache: false,
-                success: function (data) {
-                    console.log("request send");
-                },
-                error: function (xhr) {
-                    console.log('error request');
-                }
-            });
-        });
-
-    </script>
 </head>
 @Styles.Render("~/Content/themes/home/home.css")
 

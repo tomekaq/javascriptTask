@@ -18,6 +18,7 @@
             .appendTo('#myTable')
             .appendTo('#col1');
     }
+
     else if (MaxValue == 0 | isNaN(MaxValue)) {
         $('<a id="war2"> Wprowadz maksymalną wartość.</a>')
             .appendTo('#myTable')
@@ -59,26 +60,55 @@ $(".Download").ready(function () {
     
 });
 
-//$(".Download").ready(
-//    function () {
-//        window.aa = window.setInterval(
-//            function () {
 
-//                $.ajax({
-//                    url: '/Home/Download',
-//                    dataType: "json",
-//                    type: "GET",
-//                    success: function (data) {
-//                        console.log("chce odebrac");
+$(document).on('click', '#genButton', function () {
+    var fileNumber = parseInt($("#textbox1").val());
+    var MaxValue = parseInt($("#textbox2").val());
+    var id = Date.now();
 
-//                        //if (data.success)
-//                        //   window.location = getUrl + "?fileName=" + data.fName;
-//                    },
-//                    error: function (xhr) {
-//                        console.log("chce odebrac ale nie moge");
-//                    }
+    $.ajax({
+        url: '/Home/RequestQueue',
+        dataType: "json",
+        type: "POST",
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({ file: { Id: id, FileAmount: fileNumber, MaxValue: MaxValue } }),
+        async: true,
+        processData: false,
+        cache: false,
+        success: function (data) {
+            console.log("request send" );
+        },
+        error: function (xhr) {
+            console.log('error request',xhr.status);
+        }
+    });
+});
 
-//                });
-//            },5000000000)
-//    });
+
+
+$(".Download").ready(
+    function () {
+        window.aa = window.setInterval(
+            function () {
+
+                var getUrl = '@Url.Action("DownloadQueue","Home")';
+
+                $.ajax({
+                    url: '/Home/DownloadQueue',
+                    dataType: "json",
+                    data: JSON.stringify({ file: { Id: id, FileAmount: fileNumber, MaxValue: MaxValue } }),
+                    type: "GET",
+                    success: function (data) {
+                        //console.log("chce odebrac");
+
+                        if (data.success)
+                           window.location = getUrl + "?fileName=" + data.fName;
+                    },
+                    error: function (xhr) {
+                        console.log("chce odebrac ale nie moge",xhr.status, xhr.statusText);
+                    }
+
+                });
+            },5000)
+    });
 

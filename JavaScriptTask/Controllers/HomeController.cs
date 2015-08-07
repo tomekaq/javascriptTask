@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1;
@@ -12,14 +13,15 @@ namespace JavaScriptTask.Controllers
     public class HomeController : Controller
     {
 
-        static Queue<string> requestQueue;
+        static Queue<ModelFile> requestQueue;
+        static Queue<JsonResult> responseQueue;
 
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult Download(string fileName)
+        public JsonResult Download(string fileName)
         {
             try
             {
@@ -42,18 +44,13 @@ namespace JavaScriptTask.Controllers
             {
                 return Json(e.Message);
             }
-            return null;
+            return Json(new { success = true, fileName }, JsonRequestBehavior.AllowGet);;
         }
 
-        public JsonResult GenerateFile(ModelFile file)
+        public string GenerateFile(ModelFile file)
         {
             int maxVal = int.Parse(file.MaxValue);
-            int _amount = int.Parse(file.FileAmount);
-
-            if (requestQueue == null)
-            {
-                requestQueue = new Queue<string>();
-            }
+            Int64 _amount = Int64.Parse(file.FileAmount);
 
             using (BCRandomStream rndstream = new BCRandomStream(maxVal + 1))
             {
@@ -66,25 +63,58 @@ namespace JavaScriptTask.Controllers
                         for (var i = 0; i < _amount; i++)
                             writeStream.WriteLine(rndstream.Read());
                     }
-                    string json = "{success = true," + fName + " id =" + file.Id + " }";
-                    requestQueue.Enqueue(json);
-                    return Json(new { success = true, fName }, JsonRequestBehavior.AllowGet);
+                   
+                    
+                    return fName;
                 }
             }
         }
-
-        public JsonResult SendInfo()
+        public JsonResult DownloadQueue()
         {
-            var peek = requestQueue.First();
-            if (peek != null) 
+            if (responseQueue.Count != 0)
             {
-                requestQueue.Dequeue();
-            }
-            else
+                return Json(responseQueue.First());
+            } 
+            return null;
+        }
+
+        public void GenerateQueue()
+        {
+            try
             {
-                requestQueue.Enqueue(peek);
+                if (responseQueue == null)
+                {
+                    responseQueue = new Queue<JsonResult>();
+                }
+
+                if (requestQueue.Count != 0)
+                {
+                    var peek = requestQueue.First();
+                    var t = GenerateFile(peek);
+                    var down = Download(t); 
+                    requestQueue.Dequeue();
+                    responseQueue.Enqueue(down);                    
+                }
+                else
+                {
+                  Thread.Sleep(5000);
+                }
+              
             }
-            return Json(peek);
+            catch(Exception e)
+            {
+            }
+        }
+
+        public ActionResult RequestQueue(ModelFile file){
+
+            if (requestQueue == null)
+            {
+                requestQueue = new Queue<ModelFile>();
+            }
+            requestQueue.Enqueue(file);
+
+            return Json(new{success = true});
         }
     }
 
