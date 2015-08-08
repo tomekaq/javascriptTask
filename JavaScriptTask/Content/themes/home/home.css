@@ -1,0 +1,24 @@
+﻿body {
+    background-color:dimgrey;
+    color:dimgrey;
+}
+
+span {
+    font-style: normal;
+    color:lightseagreen;
+}
+
+a{
+    color: black;
+    font-style: normal;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: medium;
+}
+
+#okButton, #reset {
+    color: black;
+    font-family: Cambria;
+}
+
+
+
