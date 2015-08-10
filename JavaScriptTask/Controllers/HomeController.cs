@@ -103,8 +103,13 @@ namespace JavaScriptTask.Controllers
             var t = Task.Run(() => {var ts = GenerateFile(file);
                                     downloadList.Add(ts); });
             tasks.Add(t);
- 
+
             return Json(new { success = true });
+        }
+
+        public JsonResult TasksAmount (){
+
+            return Json(tasks.Capacity);
         }
     }
 

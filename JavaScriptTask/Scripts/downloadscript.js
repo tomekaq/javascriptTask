@@ -53,36 +53,36 @@ function reset() {
 }
 
 $(".Download").ready(function () {
-        window.hwnd = window.setInterval(
-            function () {
-                    console.info('ok');
-                }, 5000);
-    
-});
+    window.hwnd = window.setInterval(
+        function () {
+            console.info('ok');
+        }, 5000);
 
+});
+var list = [];
+//$('.genButton').click( function () {
 $(document).on('click', '#genButton', function () {
     var fileNumber = parseInt($("#textbox1").val());
     var MaxValue = parseInt($("#textbox2").val());
     var id = Date.now();
-    
+
     $.ajax({
         url: '/Home/RequestQueue',
         dataType: "json",
         type: "POST",
         contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({ file: {Id:id, FileAmount: fileNumber, MaxValue: MaxValue } }),
+        data: JSON.stringify({ file: { Id: id, FileAmount: fileNumber, MaxValue: MaxValue } }),
         async: true,
         processData: false,
         cache: false,
         success: function (data) {
-            if(data.success)
+            if (data.success)
                 console.log("request send");
-            
+            list.push(id);
         },
         error: function (xhr) {
-            console.log('error request',xhr.status);
+            console.log('error request', xhr.status);
         }
     });
 });
-
 

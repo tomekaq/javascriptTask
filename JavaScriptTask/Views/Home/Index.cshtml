@@ -16,16 +16,41 @@
                 var getUrl = '@Url.Action("Download","Home")';
 
                 $.ajax({
-                    url: '/Home/DownloadQueue',
+                    url: '/Home/Response',
                     type: 'POST',
                     success: function (xhr) {
                        
-                        window.location = getUrl + "?fileName=" + "GenerateFile1439196910686.txt";
+                        window.location = getUrl + "?fileName=" + "GenerateFile1439196897846.txt";
                     },
                     error: function(xhr){console.log(xhr.status)}
                 });
        
         });
+
+
+        $(document).ready(function () {
+
+            window.aa = window.setInterval(function () {
+                var getUrl = '@Url.Action("Download","Home")';
+                if (list.length == 0)
+                    return;
+                var s = list.pop();
+
+                $.ajax({
+                    url: '/Home/Response',
+                    type: 'POST',
+                    success: function (xhr) {
+                        window.location = getUrl + "?fileName=" + "GenerateFile" + s + ".txt";
+              
+                    },
+                    error: function (xhr) {
+                        console.log(xhr.status)
+                        list.push(s);
+                    }
+                });
+            }, 5000);
+        });
+
     </script>
 
 </head>
