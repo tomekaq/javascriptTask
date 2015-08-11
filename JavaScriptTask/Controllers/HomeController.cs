@@ -39,6 +39,7 @@ namespace JavaScriptTask.Controllers
                     response.Flush();
                     response.End();
                 }
+
             }
             catch (Exception e)
             {
@@ -74,24 +75,6 @@ namespace JavaScriptTask.Controllers
                 return null;
             }
         }
-        public JsonResult MyResponse(string file)
-        {
-            try
-            {
-                if (downloadList.Contains(file))
-                {
-                    var filePath = downloadList.First();
-                    downloadList.Remove(file);
-                    return Json(new { success = true, filePath } , JsonRequestBehavior.AllowGet);
-                }
-                return Json(new { success = false});
-            }
-            catch (Exception e)
-            {
-                var glg = e.Message;
-            }
-            return null;
-        }
 
         public JsonResult RequestQueue(ModelFile file)
         {
@@ -108,16 +91,48 @@ namespace JavaScriptTask.Controllers
                 downloadList = new List<string>();
             }
             requestQueue.Enqueue(file);
-            var t = Task.Run(() => {var ts = GenerateFile(file);
-                                    downloadList.Add(ts); });
+            var t = Task.Run(() =>
+            {
+                var ts = GenerateFile(file);
+                downloadList.Add(ts);
+            });
             tasks.Add(t);
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult TasksAmount (){
+        public JsonResult MyRequests(string file)
+        {
+            try
+            {
+                if (downloadList.Contains(file))
+                {
+                    var filePath = downloadList.First();
+                    return Json(new { success = true, filePath }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(new { success = false });
+            }
+            catch (Exception e)
+            {
+                var glg = e.Message;
+            }
+            return null;
+        }
 
-            return Json(tasks.Capacity);
+        public JsonResult SendDownload(string file)
+        {
+            try
+            {
+                downloadList.Remove(file);
+                System.IO.File.Delete(Server.MapPath("~/" + file));
+                return Json(new { success = true });
+            }
+            catch
+            {
+                return null;
+            }
+
         }
     }
 }

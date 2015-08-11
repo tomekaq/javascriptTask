@@ -12,23 +12,61 @@
 
             window.aa = window.setInterval(function () {
                 var getUrl = '@Url.Action("Download","Home")';
-                if (list.length == 0)
+                if (requestClientList.length == 0) {
+                    console.log("nic nie ma");
                     return;
-                var s = list.pop();
+                }
+                var s = requestClientList.pop();
 
                 $.ajax({
-                    url: '/Home/MyResponse',
+                    url: '/Home/MyRequests',
                     type: 'POST',
-                    dataType:"JSON",
-                    data: {file:"GenerateFile" + s + ".txt"},
+                    dataType: "JSON",
+                    data: { file: "GenerateFile" + s + ".txt" },
                     success: function (data) {
-                        if(data.success)
+                        if (data.success) {
                             window.location = getUrl + "?fileName=" + "GenerateFile" + s + ".txt";
-                        console.log(data.success);
+                            downloadedList.push("GenerateFile" + s + ".txt");
+                        }
+                        else {
+                            requestClientList.push(s);
+                            console.log(data.success);
+                        }
+                    },
+                    
+                    error: function (xhr) {
+                        console.log("error with request " + s);
+                        requestClientList.push(s);
+                    }
+                });
+            }, 5000);
+        });
+
+        $(document).ready(function () {
+
+            window.aa = window.setInterval(function () {
+                if (downloadedList.length == 0) {
+                    return;
+                }
+                var s = downloadedList.pop();
+
+                $.ajax({
+                    url: '/Home/SendDownload',
+                    type: 'POST',
+                    dataType: "JSON",
+                    data: { file: s },
+                    success: function (data) {
+                        if (data.success) {
+                            console.log("remove from server " + s);
+                        }
+                        else {
+                            downloadedList.push(s);
+                            console.log("problem with remove " + s);
+                        }
                     },
                     error: function (xhr) {
-                        console.log(xhr.status)
-                        list.push(s);
+                        console.log("error with remove " + s);
+                        downloadedList.push(s);
                     }
                 });
             }, 5000);
@@ -41,5 +79,6 @@
 <body>
     @Html.Partial("~/Views/Home/Download.cshtml")
 
+    @*@Html.Partial("~/Views/Home/temp.cshtml")*@
 </body>
 </html>

@@ -25,12 +25,12 @@
             .appendTo('#col2');
     }
     else if (MaxValue < 0) {
-        $('<a id="war2"> "Maksymalna wartość musi być większa od zera.</a>')
+        $('<a id="war2"> Maksymalna wartość musi być większa od zera.</a>')
             .appendTo('#myTable')
             .appendTo('#col2');
     }
     else if (MaxValue > 2147483647) {
-        $('<a id="war2"> "Maksymalna wartość musi być mniejsza niż 2147483647." </a>')
+        $('<a id="war2"> Maksymalna wartość musi być mniejsza niż 2147483647. </a>')
             .appendTo('#myTable')
             .appendTo('#col2');
     }
@@ -59,7 +59,8 @@ $(".Download").ready(function () {
         }, 10000);
 
 });
-var list = [];
+var requestClientList = [];
+var downloadedList = [];
 var id = -1;
 //$('.genButton').click( function () {
 $(document).on('click', '#genButton', function () {
@@ -78,11 +79,12 @@ $(document).on('click', '#genButton', function () {
         cache: false,
         success: function (data) {
             if (data.success)
-                console.log("request send");
-            list.push(id);
+                console.log("request send ");
+            requestClientList.push(id);
+            console.log(data.success + " cos ");
         },
         error: function (xhr) {
-            console.log('error request', xhr.status);
+            console.log('error request ', xhr.status);
         }
     });
 });
