@@ -13,13 +13,13 @@
             window.aa = window.setInterval(function () {
                 var getUrl = '@Url.Action("Download","Home")';
                 if (requestClientList.length == 0) {
-                    console.log("nic nie ma");
+                    console.log("Download list empty.");
                     return;
                 }
                 var s = requestClientList.pop();
 
                 $.ajax({
-                    url: '/Home/MyRequests',
+                    url: '/Home/MyRequests',                           
                     type: 'POST',
                     dataType: "JSON",
                     data: { file: "GenerateFile" + s + ".txt" },
@@ -30,13 +30,12 @@
                         }
                         else {
                             requestClientList.push(s);
-                            console.log(data.success);
+                            console.log(data.success + " " + s);
                         }
                     },
                     
                     error: function (xhr) {
-                        console.log("error with request " + s);
-                        requestClientList.push(s);
+                        console.log("Error with request " + s);
                     }
                 });
             }, 5000);
@@ -57,15 +56,15 @@
                     data: { file: s },
                     success: function (data) {
                         if (data.success) {
-                            console.log("remove from server " + s);
+                            console.log("Remove from server " + s);
                         }
                         else {
                             downloadedList.push(s);
-                            console.log("problem with remove " + s);
+                            console.log("Problem with remove " + s);
                         }
                     },
                     error: function (xhr) {
-                        console.log("error with remove " + s);
+                        console.log("Error with remove " + s);
                         downloadedList.push(s);
                     }
                 });
@@ -79,6 +78,6 @@
 <body>
     @Html.Partial("~/Views/Home/Download.cshtml")
 
-    @*@Html.Partial("~/Views/Home/temp.cshtml")*@
+  
 </body>
 </html>

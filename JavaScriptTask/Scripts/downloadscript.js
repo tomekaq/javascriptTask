@@ -75,13 +75,13 @@ $(document).on('click', '#genButton', function () {
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify({ file: { Id: id, FileAmount: fileNumber, MaxValue: MaxValue } }),
         async: true,
-        processData: false,
+        processData: false,                                             
         cache: false,
         success: function (data) {
-            if (data.success)
+            if (data.success) {
                 console.log("request send ");
-            requestClientList.push(id);
-            console.log(data.success + " cos ");
+                requestClientList.push(id);
+            }
         },
         error: function (xhr) {
             console.log('error request ', xhr.status);
