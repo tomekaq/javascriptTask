@@ -49,25 +49,32 @@ namespace JavaScriptTask.Controllers
 
         public string GenerateFile(ModelFile file)
         {
-            int maxVal = int.Parse(file.MaxValue);
-            Int64 _amount = Int64.Parse(file.FileAmount);
-
-            using (BCRandomStream rndstream = new BCRandomStream(maxVal + 1))
+            try
             {
-                string fName = "GenerateFile"+file.Id +".txt";
-                string path = Server.MapPath("~/" + fName);
-                using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                int maxVal = int.Parse(file.MaxValue);
+                Int64 _amount = Int64.Parse(file.FileAmount);
+
+                using (BCRandomStream rndstream = new BCRandomStream(maxVal + 1))
                 {
-                    using (StreamWriter writeStream = new StreamWriter(fileStream))
+                    string fName = "GenerateFile" + file.Id + ".txt";
+                    string path = Server.MapPath("~/" + fName);
+                    using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
                     {
-                        for (var i = 0; i < _amount; i++)
-                            writeStream.WriteLine(rndstream.Read());
+                        using (StreamWriter writeStream = new StreamWriter(fileStream))
+                        {
+                            for (var i = 0; i < _amount; i++)
+                                writeStream.WriteLine(rndstream.Read());
+                        }
+                        return fName;
                     }
-                    return fName;
                 }
             }
+            catch
+            {
+                return null;
+            }
         }
-        public JsonResult Response(string file)
+        public JsonResult MyResponse(string file)
         {
             try
             {
@@ -75,8 +82,9 @@ namespace JavaScriptTask.Controllers
                 {
                     var filePath = downloadList.First();
                     downloadList.Remove(file);
-                    return Json(new { success = true, filePath });
+                    return Json(new { success = true, filePath } , JsonRequestBehavior.AllowGet);
                 }
+                return Json(new { success = false});
             }
             catch (Exception e)
             {
@@ -104,7 +112,7 @@ namespace JavaScriptTask.Controllers
                                     downloadList.Add(ts); });
             tasks.Add(t);
 
-            return Json(new { success = true });
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult TasksAmount (){
@@ -112,8 +120,6 @@ namespace JavaScriptTask.Controllers
             return Json(tasks.Capacity);
         }
     }
-
-
 }
 
 

@@ -56,15 +56,16 @@ $(".Download").ready(function () {
     window.hwnd = window.setInterval(
         function () {
             console.info('ok');
-        }, 5000);
+        }, 10000);
 
 });
 var list = [];
+var id = -1;
 //$('.genButton').click( function () {
 $(document).on('click', '#genButton', function () {
     var fileNumber = parseInt($("#textbox1").val());
     var MaxValue = parseInt($("#textbox2").val());
-    var id = Date.now();
+    id++;
 
     $.ajax({
         url: '/Home/RequestQueue',

@@ -2,31 +2,11 @@
 
 <html>
 
-
 <head>
     <title> Generowanie losowych liczb</title>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
-    <script src="~/Scripts/downloadscript.js">
-    </script>
+    <script src="~/Scripts/downloadscript.js"></script>
     <script>
-
-        $(document).on('click', '#down', function () {
-    
-                var getUrl = '@Url.Action("Download","Home")';
-
-                $.ajax({
-                    url: '/Home/Response',
-                    type: 'POST',
-                    success: function (xhr) {
-                       
-                        window.location = getUrl + "?fileName=" + "GenerateFile1439196897846.txt";
-                    },
-                    error: function(xhr){console.log(xhr.status)}
-                });
-       
-        });
-
 
         $(document).ready(function () {
 
@@ -37,11 +17,14 @@
                 var s = list.pop();
 
                 $.ajax({
-                    url: '/Home/Response',
+                    url: '/Home/MyResponse',
                     type: 'POST',
-                    success: function (xhr) {
-                        window.location = getUrl + "?fileName=" + "GenerateFile" + s + ".txt";
-              
+                    dataType:"JSON",
+                    data: {file:"GenerateFile" + s + ".txt"},
+                    success: function (data) {
+                        if(data.success)
+                            window.location = getUrl + "?fileName=" + "GenerateFile" + s + ".txt";
+                        console.log(data.success);
                     },
                     error: function (xhr) {
                         console.log(xhr.status)
@@ -58,5 +41,5 @@
 <body>
     @Html.Partial("~/Views/Home/Download.cshtml")
 
-    </body>
+</body>
 </html>
