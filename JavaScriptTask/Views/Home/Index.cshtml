@@ -8,9 +8,10 @@
     <script src="~/Scripts/downloadscript.js"></script>
     <script>
 
-        $(document).ready(function () {
+        $("#requestClientList").ready(function () {
 
             window.aa = window.setInterval(function () {
+
                 var getUrl = '@Url.Action("Download","Home")';
                 if (requestClientList.length == 0) {
                     console.log("Download list empty.");
@@ -70,7 +71,7 @@
                 });
             }, 5000);
         });
-
+     
     </script>
 
 </head>
