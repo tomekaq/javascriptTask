@@ -1,32 +1,19 @@
-﻿<html>
-
-<head>
-    <title> Generowanie losowych liczb</title>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
-    <script src="~/Scripts/downloadscript.js"></script>
-
-</head>
+﻿
 @Styles.Render("~/Content/themes/home/home.css")
 
-<body>
-
-    <div id="myTable">
-        <div class="row" id="col1">
-            <a>Wprowadź ile liczb wygenerować:</a>
-            <a>  <input type="text" size="20" id="textbox1" name="fileAmount" /></a>
-        </div>
-        <div class="row" id="col2">
-            <a>Wprowadź maksymalną wartość:</a>
-            <a><input type="text" size="20" id="textbox2" name="maxValue" /> </a>
-        </div>
-        <div class="genbutton" id="buttons">
-            <a>
-                <input type="button" id="okButton" name="submit" value="OK" onclick="validate()" dis>
-                <input type="button" id="reset" value="Resetuj" onclick="reset()" />
-            </a>
-        </div>
+<div id="myTable">
+    <div class="row" id="col1">
+        <a>Wprowadź ile liczb wygenerować:</a>
+        <a>  <input type="text" size="20" id="textbox1" name="fileAmount" value="3" /></a>
     </div>
-</body>
-
-</html>
+    <div class="row" id="col2">
+        <a>Wprowadź maksymalną wartość:</a>
+        <a><input type="text" size="20" id="textbox2" name="maxValue" value="3" /> </a>
+    </div>
+    <div class="genbutton" id="buttons">
+        <a>
+            <input type="button" id="okButton" name="submit" value="OK" onclick="validate()" dis>
+            <input type="button" id="reset" value="Resetuj" onclick="reset()" />
+        </a>
+    </div>
+</div>

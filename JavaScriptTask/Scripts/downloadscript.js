@@ -25,12 +25,12 @@
             .appendTo('#col2');
     }
     else if (MaxValue < 0) {
-        $('<a id="war2"> "Maksymalna wartość musi być większa od zera.</a>')
+        $('<a id="war2"> Maksymalna wartość musi być większa od zera.</a>')
             .appendTo('#myTable')
             .appendTo('#col2');
     }
     else if (MaxValue > 2147483647) {
-        $('<a id="war2"> "Maksymalna wartość musi być mniejsza niż 2147483647." </a>')
+        $('<a id="war2"> Maksymalna wartość musi być mniejsza niż 2147483647. </a>')
             .appendTo('#myTable')
             .appendTo('#col2');
     }
@@ -53,18 +53,20 @@ function reset() {
 }
 
 $(".Download").ready(function () {
-        window.hwnd = window.setInterval(
-            function () {
-                    console.info('ok');
-                }, 5000);
-    
+    window.hwnd = window.setInterval(
+        function () {
+            console.info('ok');
+        }, 10000);
+
 });
-
-
+var requestClientList = [];
+var downloadedList = [];
+var id = -1;
+//$('.genButton').click( function () {
 $(document).on('click', '#genButton', function () {
     var fileNumber = parseInt($("#textbox1").val());
     var MaxValue = parseInt($("#textbox2").val());
-    var id = Date.now();
+    id++;
 
     $.ajax({
         url: '/Home/RequestQueue',
@@ -73,42 +75,17 @@ $(document).on('click', '#genButton', function () {
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify({ file: { Id: id, FileAmount: fileNumber, MaxValue: MaxValue } }),
         async: true,
-        processData: false,
+        processData: false,                                             
         cache: false,
         success: function (data) {
-            console.log("request send" );
+            if (data.success) {
+                console.log("request send ");
+                requestClientList.push(id);
+            }
         },
         error: function (xhr) {
-            console.log('error request',xhr.status);
+            console.log('error request ', xhr.status);
         }
     });
 });
-
-
-
-$(".Download").ready(
-    function () {
-        window.aa = window.setInterval(
-            function () {
-
-                var getUrl = '@Url.Action("DownloadQueue","Home")';
-
-                $.ajax({
-                    url: '/Home/DownloadQueue',
-                    dataType: "json",
-                    data: JSON.stringify({ file: { Id: id, FileAmount: fileNumber, MaxValue: MaxValue } }),
-                    type: "GET",
-                    success: function (data) {
-                        //console.log("chce odebrac");
-
-                        if (data.success)
-                           window.location = getUrl + "?fileName=" + data.fName;
-                    },
-                    error: function (xhr) {
-                        console.log("chce odebrac ale nie moge",xhr.status, xhr.statusText);
-                    }
-
-                });
-            },5000)
-    });
 
