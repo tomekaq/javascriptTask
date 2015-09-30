@@ -66,9 +66,11 @@ namespace JavaScriptTask.Controllers
                             for (var i = 0; i < _amount; i++)
                                 writeStream.WriteLine(rndstream.Read());
                         }
+                        Thread.Sleep(30 * 1000);
                         return fName;
                     }
                 }
+                 
             }
             catch
             {

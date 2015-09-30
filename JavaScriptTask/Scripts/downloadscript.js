@@ -84,8 +84,39 @@ $(document).on('click', '#genButton', function () {
             }
         },
         error: function (xhr) {
-            console.log('error request ', xhr.status);
+            console.log('error request', xhr.status);
         }
     });
 });
 
+$(".Download").ready(function () {
+    aa = window.setInterval(function () {
+        if (downloadedList.length == 0) {
+            {
+                clearInterval(aa);
+                return;
+            }
+        }
+        var s = downloadedList.pop();
+
+        $.ajax({
+            url: '/Home/SendDownload',
+            type: 'POST',
+            dataType: "JSON",
+            data: { file: s },
+            success: function (data) {
+                if (data.success) {
+                    console.log("Remove from server " + s);
+                }
+                else {
+                    downloadedList.push(s);
+                    console.log("Problem with remove " + s);
+                }
+            },
+            error: function (xhr) {
+                console.log("Error with remove " + s);
+                downloadedList.push(s);
+            }
+        });
+    }, 5000);
+});
